@@ -65,6 +65,7 @@ const getAllStudentViewCourses = async (req, res) => {
 const getStudentViewCourseDetails = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(req.params);
     const courseDetails = await Course.findById(id);
 
     if (!courseDetails) {

@@ -1,5 +1,3 @@
-"use client";
-
 import { Footer } from "flowbite-react";
 import { GraduationCap } from "lucide-react";
 import {
@@ -48,7 +46,7 @@ export function StudentViewCommonFooter() {
         <Footer.Divider />
         <div className="w-full sm:flex sm:items-center sm:justify-between">
           <Footer.Copyright
-            href="#"
+            href=""
             by="My Skills Academy™"
             year={new Date().getFullYear()}
           />
