@@ -60,8 +60,8 @@ function AuthPage() {
           </span>
         </Link>
       </header>
-      <div className="flex justify-around">
-        <div className="flex items-center min-w-[50%] justify-center min-h-screen bg-background">
+      <div className="flex flex-col-reverse md:flex-row justify-around">
+        <div className="flex  items-center min-w-[50%] justify-center min-h-screen bg-background">
           <Tabs
             value={activeTab}
             defaultValue="signin"
