@@ -8,36 +8,62 @@ export const AuthContext = createContext(null);
 export default function AuthProvider({ children }) {
   const [signInFormData, setSignInFormData] = useState(initialSignInFormData);
   const [signUpFormData, setSignUpFormData] = useState(initialSignUpFormData);
+  const [errorMessage, setErrorMessage] = useState("");
   const [auth, setAuth] = useState({
     authenticate: false,
     user: null,
   });
   const [loading, setLoading] = useState(true);
+  const [authLoading, setAuthLoading] = useState(false);
 
   async function handleRegisterUser(event) {
     event.preventDefault();
-    const data = await registerService(signUpFormData);
+    try {
+      setAuthLoading(true);
+      setErrorMessage(null);
+      console.log("...");
+      const data = await registerService(signUpFormData);
+
+      console.log(data);
+      setAuthLoading(false);
+      console.log(data.message);
+      return setErrorMessage(data.message);
+    } catch (error) {
+      setErrorMessage(error.data.message);
+      setAuthLoading(false);
+    }
   }
 
   async function handleLoginUser(event) {
     event.preventDefault();
-    const data = await loginService(signInFormData);
-    console.log(data, "datadatadatadatadata");
+    try {
+      setAuthLoading(true);
+      setErrorMessage(null);
+      const data = await loginService(signInFormData);
+      console.log(data, "data");
 
-    if (data.success) {
-      sessionStorage.setItem(
-        "accessToken",
-        JSON.stringify(data.data.accessToken)
-      );
-      setAuth({
-        authenticate: true,
-        user: data.data.user,
-      });
-    } else {
-      setAuth({
-        authenticate: false,
-        user: null,
-      });
+      if (data.success) {
+        setAuthLoading(false);
+        setErrorMessage(data.message);
+        sessionStorage.setItem(
+          "accessToken",
+          JSON.stringify(data.data.accessToken)
+        );
+        setAuth({
+          authenticate: true,
+          user: data.data.user,
+        });
+      } else {
+        setAuthLoading(false);
+        setErrorMessage(data.message);
+        setAuth({
+          authenticate: false,
+          user: null,
+        });
+      }
+    } catch (error) {
+      setAuthLoading(false);
+      setErrorMessage(error.message);
     }
   }
 
@@ -95,6 +121,8 @@ export default function AuthProvider({ children }) {
         handleLoginUser,
         auth,
         resetCredentials,
+        authLoading,
+        errorMessage,
       }}
     >
       {loading ? <Skeleton /> : children}

@@ -2,7 +2,7 @@ const User = require("../../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const registerUser = async (req, res) => {
+const registerUser = async (req, res, next) => {
   const { userName, userEmail, password, role } = req.body;
 
   const existingUser = await User.findOne({
@@ -24,12 +24,12 @@ const registerUser = async (req, res) => {
     password: hashPassword,
   });
 
-  await newUser.save();
-
-  return res.status(201).json({
-    success: true,
-    message: "User registered successfully!",
-  });
+  try {
+    await newUser.save();
+    res.json({ success: true, message: "Signup Successful" });
+  } catch (error) {
+    next(error);
+  }
 };
 
 const loginUser = async (req, res) => {
