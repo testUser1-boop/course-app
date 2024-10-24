@@ -11,9 +11,9 @@ import {
 export function StudentViewCommonFooter() {
   return (
     <Footer container>
-      <div className="w-full pt-10 border-t-2 ">
+      <div className="w-full pt-10  border-t-2 ">
         <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
-          <div>
+          <div className="p-12">
             <GraduationCap className="h-5 w-5 text-yellow-400  -rotate-45  " />
             <span className="font-extrabold md:text-xl text-[14px]">
               My Skills <span className="text-sm ">Academy</span>

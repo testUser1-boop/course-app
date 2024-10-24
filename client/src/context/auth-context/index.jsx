@@ -24,13 +24,17 @@ export default function AuthProvider({ children }) {
       console.log("...");
       const data = await registerService(signUpFormData);
 
-      console.log(data);
+      console.log(signInFormData);
       setAuthLoading(false);
       console.log(data.message);
+      setSignUpFormData(initialSignUpFormData);
+      setSignInFormData(initialSignInFormData);
       return setErrorMessage(data.message);
     } catch (error) {
       setErrorMessage(error.data.message);
       setAuthLoading(false);
+      setSignUpFormData(initialSignUpFormData);
+      setSignInFormData(initialSignInFormData);
     }
   }
 
@@ -45,6 +49,8 @@ export default function AuthProvider({ children }) {
       if (data.success) {
         setAuthLoading(false);
         setErrorMessage(data.message);
+        setSignUpFormData(initialSignUpFormData);
+        setSignInFormData(initialSignInFormData);
         sessionStorage.setItem(
           "accessToken",
           JSON.stringify(data.data.accessToken)
@@ -56,6 +62,8 @@ export default function AuthProvider({ children }) {
       } else {
         setAuthLoading(false);
         setErrorMessage(data.message);
+        setSignUpFormData(initialSignUpFormData);
+        setSignInFormData(initialSignInFormData);
         setAuth({
           authenticate: false,
           user: null,
@@ -64,6 +72,8 @@ export default function AuthProvider({ children }) {
     } catch (error) {
       setAuthLoading(false);
       setErrorMessage(error.message);
+      setSignUpFormData(initialSignUpFormData);
+      setSignInFormData(initialSignInFormData);
     }
   }
 
@@ -98,6 +108,8 @@ export default function AuthProvider({ children }) {
   }
 
   function resetCredentials() {
+    setErrorMessage(null);
+
     setAuth({
       authenticate: false,
       user: null,

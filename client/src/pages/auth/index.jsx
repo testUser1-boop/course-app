@@ -1,4 +1,5 @@
 import CommonForm from "@/components/common-form";
+import { StudentViewCommonFooter } from "@/components/student-view/footer";
 import {
   Card,
   CardContent,
@@ -135,6 +136,7 @@ function AuthPage() {
           />
         </div>
       </div>
+      <StudentViewCommonFooter />
     </div>
   );
 }
