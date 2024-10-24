@@ -26,7 +26,10 @@ const registerUser = async (req, res, next) => {
 
   try {
     await newUser.save();
-    res.json({ success: true, message: "Signup Successful" });
+    res.json({
+      success: true,
+      message: "Signup Successful. please go to sign in !",
+    });
   } catch (error) {
     next(error);
   }
