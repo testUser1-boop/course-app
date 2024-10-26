@@ -96,13 +96,25 @@ const checkCoursePurchaseInfo = async (req, res) => {
     const studentCourses = await StudentCourses.findOne({
       userId: studentId,
     });
+    
+    if (!studentCourses) {
+      const newUserCourse = new StudentCourses({
+        userId: studentId,
+        coursers: [{}],
+      });
 
-    const ifStudentAlreadyBoughtCurrentCourse =
-      studentCourses.courses.findIndex((item) => item.courseId === id) > -1;
-    res.status(200).json({
-      success: true,
-      data: ifStudentAlreadyBoughtCurrentCourse,
-    });
+      await newUserCourse.save();
+      res.status(200).json({
+        success: true,
+      });
+    } else {
+      const ifStudentAlreadyBoughtCurrentCourse =
+        studentCourses.courses.findIndex((item) => item.courseId === id) > -1;
+      res.status(200).json({
+        success: true,
+        data: ifStudentAlreadyBoughtCurrentCourse,
+      });
+    }
   } catch (e) {
     res.status(500).json({
       success: false,
